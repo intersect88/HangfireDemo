@@ -2,7 +2,6 @@
 
 <p>This component demonstrates fetching data from the server.</p>
 
-<p *ngIf="!forecasts"><em>Loading...</em></p>
 <table class='table' *ngIf="forecasts">
   <thead>
     <tr>
@@ -11,7 +10,15 @@
   </thead>
   <tbody>
     <tr>
-      <td>{{ forecasts }}</td>
+      <td>{{ counter }}</td>
     </tr>
   </tbody>
 </table>
+
+<h1>Counter</h1>
+
+<p>This is a simple example of an Angular component.</p>
+
+<p>Current count: <strong>{{ counter }}</strong></p>
+
+<button (click)="incrementCounter()">Increment</button>

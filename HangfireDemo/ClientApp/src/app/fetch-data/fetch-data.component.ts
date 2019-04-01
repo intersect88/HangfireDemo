@@ -1,17 +1,29 @@
 import { Component, Inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HeroesService } from './fetch-data.service';
+import { Counter } from './corpo';
+import { CounterComponent } from '../counter/counter.component';
 
 @Component({
   selector: 'app-fetch-data',
-  templateUrl: './fetch-data.component.html'
+  templateUrl: './fetch-data.component.html',
+  providers: [ HeroesService ]
 })
 export class FetchDataComponent {
-  public forecasts;
+  public counter = 0;
+  constructor(private heroesService: HeroesService) {
+}
 
-  constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
-    http.get(baseUrl + 'api/SampleData/IncrementCounter').subscribe(result => {
-      this.forecasts = result;
-    }, error => console.error(error));
+  /** POST: add a new hero to the database */
+  incrementCounter() {
+    const newHero: Counter = { Value: this.counter };
+    this.heroesService.addHero(newHero).subscribe(
+      {
+        complete: () => {
+          this.heroesService.getHeroes().subscribe(
+            c => this.counter = c);
+        }
+      }
+    );
   }
 }
 

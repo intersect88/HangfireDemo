@@ -2,6 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using HangfireDemo.Models;
+using HangfireDemo.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HangfireDemo.Controllers
@@ -9,15 +12,22 @@ namespace HangfireDemo.Controllers
     [Route("api/[controller]")]
     public class SampleDataController : Controller
     {
-        public int counter;
+        public static Counter c = new Counter();
 
         [HttpGet("[action]")]
-        public int IncrementCounter()
+        public int GetCounter()
         {
-            var temp = this.counter;
-            temp++;
-            this.counter = temp;
-            return this.counter;
+            return c.Value ;
+        }
+
+        // POST api/values
+        [HttpPut]
+        [Route("counter")]
+        public Counter Put([FromBody] Counter cou)
+        {
+            c.Value = cou.Value;
+            c.Value++;
+            return c;
         }
     }
 }
