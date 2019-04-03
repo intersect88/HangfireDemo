@@ -1,24 +1,21 @@
 import { Component, Inject } from '@angular/core';
-import { HeroesService } from './home.service';
+import { HomeService } from './home.service';
 import { Counter } from './counter';
 
 @Component({
   selector: '',
   templateUrl: './home.component.html',
-  providers: [ HeroesService ]
+  providers: [HomeService]
 })
 export class HomeComponent {
   public counter = 0;
-  constructor(private heroesService: HeroesService) {
-}
-
-  /** POST: add a new hero to the database */
+  constructor(private homeService: HomeService) { }
   incrementCounter() {
-    const newHero: Counter = { Value: this.counter };
-    this.heroesService.addHero(newHero).subscribe(
+    const currentCounter: Counter = { Value: this.counter };
+    this.homeService.sendCurrentCounter(currentCounter).subscribe(
       {
         complete: () => {
-          this.heroesService.getHeroes().subscribe(
+          this.homeService.getIncrementedCounter().subscribe(
             c => this.counter = c);
         }
       }
