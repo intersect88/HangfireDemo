@@ -1,7 +1,9 @@
+using Hangfire;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -26,6 +28,8 @@ namespace HangfireDemo
             {
                 configuration.RootPath = "ClientApp/dist";
             });
+            // Hangfire
+            services.AddHangfire(s => s.UseSqlServerStorage(Configuration.GetConnectionString("HangfireDemo")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -42,6 +46,10 @@ namespace HangfireDemo
 
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
+
+            //Hangfire
+            app.UseHangfireDashboard("/hangfire");
+            app.UseHangfireServer();
 
             app.UseMvc(routes =>
             {
@@ -62,6 +70,7 @@ namespace HangfireDemo
                     spa.UseAngularCliServer(npmScript: "start");
                 }
             });
+
         }
     }
 }
