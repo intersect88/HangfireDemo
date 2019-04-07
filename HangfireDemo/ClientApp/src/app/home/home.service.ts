@@ -16,7 +16,7 @@ export class HomeService {
     private http: HttpClient, @Inject('BASE_URL') private baseUrl: string) { }
 
   /** GET incremented counter from the server */
-  getIncrementedCounter() {
+   getIncrementedCounter() {
     return this.http.get<number>(this.baseUrl + 'api/SampleData/GetIncrementedCounter');
   }
   //////// Save methods //////////

@@ -28,7 +28,7 @@ namespace HangfireDemo
             {
                 configuration.RootPath = "ClientApp/dist";
             });
-            // Hangfire
+            // Add Hangfire services
             services.AddHangfire(s => s.UseSqlServerStorage(Configuration.GetConnectionString("HangfireDemo")));
         }
 

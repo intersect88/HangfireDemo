@@ -1,3 +1,4 @@
+using Hangfire;
 using HangfireDemo.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,7 +12,7 @@ namespace HangfireDemo.Controllers
         [HttpGet("[action]")]
         public int GetIncrementedCounter()
         {
-            return counter.Value ;
+                return counter.Value;
         }
 
         [HttpPut]
@@ -19,6 +20,11 @@ namespace HangfireDemo.Controllers
         public void SendCurrentCounter([FromBody] Counter currentCounter)
         {
             counter.Value = currentCounter.Value;
+            BackgroundJob.Enqueue(() => incrementCounter());
+        }
+
+        public void incrementCounter()
+        {
             counter.Value++;
         }
     }
